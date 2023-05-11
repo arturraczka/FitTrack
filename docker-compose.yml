@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/fit_tracker
+    ports:
+      - 8009:8000
+    env_file:
+      - ./fit_tracker/.env.dev
+  db:
+    image: postgres:15.2-bullseye
+    restart: always
+    command: "-c fsync=off"  # baza działa szybciej, tylko dev
+    volumes:
+      - db-data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=fit_tracker
+      - POSTGRES_PASSWORD=fit_tracker
+      - POSTGRES_DB=fit_tracker_dev
+volumes:
+  db-data:
