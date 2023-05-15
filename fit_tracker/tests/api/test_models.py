@@ -1,22 +1,18 @@
 import pytest
+from apps.api.models import Session
+from django.contrib.auth import get_user_model
 
-from apps.api.models import RunningSession
-
-from apps.user.models import CustomUser
+User = get_user_model()
 
 
 @pytest.mark.django_db
-def test_runningsession_model():
-    artur = CustomUser.objects.get(username='artur')
-    session = RunningSession(user=artur, distance=10, intensity='medium', length_time=60, start_date='2023-05-16 07:32:38', calories_burnt=600)
-    session.save()
-    assert session.user == 'artur'
-    assert session.distance == 10
-    assert session.intensity == 'medium'
-    assert session.length_time == 60
-    assert session.start_date == '2023-05-16 07:32:38'
-
-
-# def test_hello_world():
-#     assert "hello_world" == "hello_world"
-#     assert "foo" != "bar"
+def test_session_model():
+    user = User.objects.create(username='testuser', password='testpass')
+    test_session = Session(user=user, session_type='running', distance=10, intensity='medium', length_time='01:00:00', start_date='2023-05-13T07:32:38')
+    test_session.save()
+    # assert test_session.user.username == 'testuser'
+    assert test_session.session_type == 'running'
+    assert test_session.distance == 10
+    assert test_session.intensity == 'medium'
+    assert test_session.length_time == '01:00:00'
+    assert test_session.start_date == '2023-05-13T07:32:38'

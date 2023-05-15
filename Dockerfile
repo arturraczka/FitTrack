@@ -3,6 +3,7 @@ FROM python:3.11.3
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONBUFFERED 1
 ENV DEBIAN_FRONTEND=noninteractive
+
 WORKDIR /app
 
 COPY Pipfile Pipfile.lock /app/

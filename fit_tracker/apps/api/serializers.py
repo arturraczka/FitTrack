@@ -1,9 +1,10 @@
 from rest_framework import serializers
 
-from apps.api.models import RunningSession
+from apps.api.models import Session
 
 
-class RunningSessionSerializer(serializers.ModelSerializer):
+class SessionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = RunningSession
-        fields = ['distance', 'intensity', 'length_time', 'start_date']
+        model = Session
+        fields = ['session_type', 'distance', 'intensity', 'length_time', 'start_date']
+        
