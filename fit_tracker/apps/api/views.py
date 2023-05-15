@@ -1,4 +1,5 @@
 from django.shortcuts import render
+
 from rest_framework import permissions
 
 from rest_framework.generics import ListCreateAPIView
@@ -46,4 +47,3 @@ class WalkingSessionListAPIView(SessionListAPIView):
     def get_queryset(self):
         queryset = Session.objects.filter(user=self.request.user, session_type='walking')
         return queryset
-

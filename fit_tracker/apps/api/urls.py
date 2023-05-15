@@ -1,5 +1,6 @@
 from django.urls import path, include
 
+
 from apps.api.views import RunningSessionListAPIView , CyclingSessionListAPIView , HikingSessionListAPIView , \
     SwimmingSessionListAPIView , WalkingSessionListAPIView
 
