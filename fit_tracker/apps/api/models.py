@@ -7,14 +7,13 @@ class Session(models.Model):
         ("easy", "easy"),
         ("medium", "medium"),
         ("hard", "hard"),
-    ]
+
     SESSION_TYPE_CHOICES = [
         ("running", "running"),
         ("cycling", "cycling"),
         ("hiking", "hiking"),
         ("swimming" , "swimming") ,
         ("walking" , "walking") ,
-    ]
 
     user = models.ForeignKey(to = get_user_model(), on_delete = models.CASCADE)
     session_type = models.CharField(blank = True, max_length = 10, choices = SESSION_TYPE_CHOICES)
