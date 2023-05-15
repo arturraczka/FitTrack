@@ -11,3 +11,4 @@ urlpatterns = [
     path('swimming/' , SwimmingSessionListAPIView.as_view() , ),
     path('walking/' , WalkingSessionListAPIView.as_view() , ),
     # path('add-workout/', )
+]
