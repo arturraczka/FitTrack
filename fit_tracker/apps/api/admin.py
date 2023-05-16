@@ -19,5 +19,4 @@ class SessionAdmin(admin.ModelAdmin):
         "user", "session_type", "distance", "intensity", "length_time", "start_date",
     )
     readonly_fields = (
-
     )
