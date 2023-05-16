@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     "default": env.db(
-        "DATABASE_URL",
+        "DATABASE_URL3",
     ),
 }
 
