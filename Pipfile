@@ -11,6 +11,7 @@ pytest-django = "*"
 pytest = "*"
 environ = "*"
 django-environ = "*"
+django-extensions = "*"
 
 [dev-packages]
 
