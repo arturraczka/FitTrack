@@ -9,6 +9,8 @@ djangorestframework = "*"
 psycopg2 = "*"
 pytest-django = "*"
 pytest = "*"
+environ = "*"
+django-environ = "*"
 
 [dev-packages]
 
