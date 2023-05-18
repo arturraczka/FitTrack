@@ -11,9 +11,10 @@ pytest-django = "*"
 pytest = "*"
 environ = "*"
 django-environ = "*"
+django-extensions = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.11"
-python_full_version = "3.11.3"
+python_version = "3.10.6"
+python_full_version = "3.10.6"
