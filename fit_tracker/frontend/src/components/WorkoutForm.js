@@ -10,6 +10,10 @@ const WorkoutForm = () => {
   const [lengthTime, setLengthTime] = useState('');
   const [startDate, setStartDate] = useState(null);
 
+  const handleDateChange = (selectedDate) => {
+    setStartDate(selectedDate); // update startDate variable with selected date
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
