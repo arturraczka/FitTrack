@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-multi-date-picker';
 import InputIcon from 'react-multi-date-picker/components/input_icon';
+import { postServices } from '../../redux/reservationSlice';
 
 const WorkoutForm = () => {
   const [workout, setWorkout] = useState({ exercise: '', duration: 0 });
