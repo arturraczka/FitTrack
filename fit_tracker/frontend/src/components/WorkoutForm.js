@@ -16,9 +16,23 @@ const WorkoutForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(postServices({
+      selectedDate: startDate,
+      data:
+       {
+         sessionType, distance, intensity, lengthTime,
+       },
+    }));
+    // Reset the form after submission
+    setSessionType('');
+    setDistance('');
+    setIntensity('');
+    setLengthTime('');
+    setStartDate('');
 
-    // Handle form submission logic here
+    navigate('/AddReservationForm'); // redirect to home page after form submission
   };
+
 
   return (
     <div className="max-w-md mx-auto p-4">
@@ -36,6 +50,11 @@ const WorkoutForm = () => {
           >
             <option value="">Select Session Type</option>
             {/* Add your dropdown options here */}
+            <option value="running">Running</option>
+            <option value="walking">Walking</option>
+            <option value="cycling">Cycling</option>
+            <option value="swimming">Swimming</option>
+            <option value="hiking">Hiking</option>
           </select>
         </div>
 
@@ -55,29 +74,32 @@ const WorkoutForm = () => {
         <div className="mb-4">
           <label htmlFor="intensity" className="block mb-2 text-sm font-medium text-gray-700">
             Intensity
+            <select
+              id="intensity"
+              className="form-select block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              value={intensity}
+              onChange={(e) => setIntensity(e.target.value)}
+            >
+              <option value="">Select Intensity</option>
+              {/* Add your dropdown options here */}
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
           </label>
-          <select
-            id="intensity"
-            className="form-select block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            value={intensity}
-            onChange={(e) => setIntensity(e.target.value)}
-          >
-            <option value="">Select Intensity</option>
-            {/* Add your dropdown options here */}
-          </select>
         </div>
 
         <div className="mb-4">
           <label htmlFor="lengthTime" className="block mb-2 text-sm font-medium text-gray-700">
             Length (Time)
-          </label>
-          <input
+            <input
             type="number"
             id="lengthTime"
             className="form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             value={lengthTime}
             onChange={(e) => setLengthTime(e.target.value)}
           />
+          </label>
         </div>
 
         <div className="mb-4">
