@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import DatePicker from 'react-multi-date-picker';
 
 const WorkoutForm = () => {
   const [workout, setWorkout] = useState({ exercise: '', duration: 0 });
