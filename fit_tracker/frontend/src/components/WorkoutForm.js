@@ -6,7 +6,7 @@ const WorkoutForm = () => {
   const [distance, setDistance] = useState('');
   const [intensity, setIntensity] = useState('');
   const [lengthTime, setLengthTime] = useState('');
-  const [startDate, setStartDate] = useState('');
+  const [startDate, setStartDate] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -75,16 +75,12 @@ const WorkoutForm = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="startDate" className="block mb-2 text-sm font-medium text-gray-700">
-            Start Date
-          </label>
-          <input
-            type="date"
-            id="startDate"
-            className="form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
+          <div className="datepicker-container">
+            <label htmlFor="datepicker" className="block font-medium mb-2">
+              Select Date:
+            </label>
+            <DatePicker id="datepicker" value={startDate} onChange={handleDateChange} render={<InputIcon />} />
+          </div>
         </div>
 
         <button
