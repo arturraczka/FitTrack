@@ -10,6 +10,8 @@ const WorkoutForm = () => {
   const [intensity, setIntensity] = useState('');
   const [lengthTime, setLengthTime] = useState('');
   const [startDate, setStartDate] = useState(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // 
 
   const handleDateChange = (selectedDate) => {
     setStartDate(selectedDate); // update startDate variable with selected date
