@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-multi-date-picker';
 import InputIcon from 'react-multi-date-picker/components/input_icon';
 import { postServices } from '../redux/reducers/workoutSlice';
@@ -12,6 +14,9 @@ const WorkoutForm = () => {
   const [startDate, setStartDate] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate(); // 
+
+  const isLoading = useSelector((state) => state.isLoading);
+
 
   const handleDateChange = (selectedDate) => {
     setStartDate(selectedDate); // update startDate variable with selected date
