@@ -14,33 +14,33 @@ class SessionListAPIView(ListCreateAPIView):
 class RunningSessionListAPIView(SessionListAPIView):
 
     def get_queryset(self):
-        queryset = Session.objects.filter(user=self.request.user, session_type='running')
+        queryset = Session.objects.filter(user=self.request.user, session_type='running').order_by('-start_date')
         return queryset
 
 
 class CyclingSessionListAPIView(SessionListAPIView):
 
     def get_queryset(self):
-        queryset = Session.objects.filter(user=self.request.user, session_type='cycling')
+        queryset = Session.objects.filter(user=self.request.user, session_type='cycling').order_by('-start_date')
         return queryset
 
 
 class HikingSessionListAPIView(SessionListAPIView):
 
     def get_queryset(self):
-        queryset = Session.objects.filter(user=self.request.user, session_type='hiking')
+        queryset = Session.objects.filter(user=self.request.user, session_type='hiking').order_by('-start_date')
         return queryset
 
 
 class SwimmingSessionListAPIView(SessionListAPIView):
 
     def get_queryset(self):
-        queryset = Session.objects.filter(user=self.request.user, session_type='swimming')
+        queryset = Session.objects.filter(user=self.request.user, session_type='swimming').order_by('-start_date')
         return queryset
 
 
 class WalkingSessionListAPIView(SessionListAPIView):
 
     def get_queryset(self):
-        queryset = Session.objects.filter(user=self.request.user, session_type='walking')
+        queryset = Session.objects.filter(user=self.request.user, session_type='walking').order_by('-start_date')
         return queryset
