@@ -2,30 +2,97 @@ import React, { useState } from 'react';
 
 const WorkoutForm = () => {
   const [workout, setWorkout] = useState({ exercise: '', duration: 0 });
+  const [sessionType, setSessionType] = useState('');
+  const [distance, setDistance] = useState('');
+  const [intensity, setIntensity] = useState('');
+  const [lengthTime, setLengthTime] = useState('');
+  const [startDate, setStartDate] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Submit the workout to the backend or store in local storage
-    console.log(workout);
+
+    // Handle form submission logic here
   };
 
   return (
-    <div>
-      <h2>Add Workout</h2>
+    <div className="max-w-md mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-4">Activity Form</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={workout.exercise}
-          onChange={(e) => setWorkout({ ...workout, exercise: e.target.value })}
-          placeholder="Exercise"
-        />
-        <input
-          type="number"
-          value={workout.duration}
-          onChange={(e) => setWorkout({ ...workout, duration: e.target.value })}
-          placeholder="Duration (minutes)"
-        />
-        <button type="submit">Add</button>
+        <div className="mb-4">
+          <label htmlFor="sessionType" className="block mb-2 text-sm font-medium text-gray-700">
+            Session Type
+          </label>
+          <select
+            id="sessionType"
+            className="form-select block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            value={sessionType}
+            onChange={(e) => setSessionType(e.target.value)}
+          >
+            <option value="">Select Session Type</option>
+            {/* Add your dropdown options here */}
+          </select>
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="distance" className="block mb-2 text-sm font-medium text-gray-700">
+            Distance
+          </label>
+          <input
+            type="number"
+            id="distance"
+            className="form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            value={distance}
+            onChange={(e) => setDistance(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="intensity" className="block mb-2 text-sm font-medium text-gray-700">
+            Intensity
+          </label>
+          <select
+            id="intensity"
+            className="form-select block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            value={intensity}
+            onChange={(e) => setIntensity(e.target.value)}
+          >
+            <option value="">Select Intensity</option>
+            {/* Add your dropdown options here */}
+          </select>
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="lengthTime" className="block mb-2 text-sm font-medium text-gray-700">
+            Length (Time)
+          </label>
+          <input
+            type="number"
+            id="lengthTime"
+            className="form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            value={lengthTime}
+            onChange={(e) => setLengthTime(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="startDate" className="block mb-2 text-sm font-medium text-gray-700">
+            Start Date
+          </label>
+          <input
+            type="date"
+            id="startDate"
+            className="form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Submit
+        </button>
       </form>
     </div>
   );
