@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'apps.api',
     'apps.user',
     'django_extensions',
+    'custom_commands',
 ]
 
 MIDDLEWARE = [

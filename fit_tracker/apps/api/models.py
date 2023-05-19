@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth import get_user_model
+from apps.user.models import CustomUser
 
 
 class Session(models.Model):
@@ -16,7 +16,6 @@ class Session(models.Model):
         ("swimming" , "swimming") ,
         ("walking" , "walking") ,
 ]
-
     user = models.ForeignKey(to = get_user_model(), on_delete = models.CASCADE)
     session_type = models.CharField(blank = True, max_length = 10, choices = SESSION_TYPE_CHOICES)
     distance = models.DecimalField(max_digits = 4, decimal_places = 1, blank = False)
