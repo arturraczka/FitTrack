@@ -1,5 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+
+import WorkoutForm from './components/WorkoutForm';
 import WorkoutList from '../src/components/WorkoutList';
 
 const App = () => {
@@ -15,10 +18,29 @@ const App = () => {
   const workoutList = workouts.length > 0 ? workouts : defaultWorkouts;
 
   return (
-    <div>
-      <h1>My Workouts</h1>
-      <WorkoutList workouts={workoutList} />
-    </div>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/workoutform">Workout Form</Link>
+            </li>
+            <li>
+              <Link to="/workoutlist">Workout List</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Routes>
+          <Route path="/" element={<h1>Welcome to the Workout Tracker App!</h1>} />
+          <Route path="/workoutform" element={<WorkoutForm />} />
+          <Route path="/workoutlist" element={<WorkoutList workouts={workoutList} />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 
