@@ -1,13 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import workoutReducer from './workoutSlice';
+import workoutReducer from './reducers/workoutSlice';
 
-const configureStore = () => {
-  return configureStore({
-    reducer: {
-      workouts: workoutReducer,
-    },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
-  });
-};
+const store = configureStore({ reducer: workoutReducer });
 
-export default configureStore;
+export default store;
