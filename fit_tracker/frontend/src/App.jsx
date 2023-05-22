@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import Navbar from './components/Navbar';
 import WorkoutForm from './components/WorkoutForm';
 import WorkoutList from '../src/components/WorkoutList';
 
@@ -19,27 +20,12 @@ const App = () => {
 
   return (
     <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/workoutform">Workout Form</Link>
-            </li>
-            <li>
-              <Link to="/workoutlist">Workout List</Link>
-            </li>
-          </ul>
-        </nav>
-
-        <Routes>
-          <Route path="/" element={<h1>Welcome to the Workout Tracker App!</h1>} />
-          <Route path="/workoutform" element={<WorkoutForm />} />
-          <Route path="/workoutlist" element={<WorkoutList workouts={workoutList} />} />
-        </Routes>
-      </div>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<h1>Welcome to the Workout Tracker App!</h1>} />
+        <Route path="/workoutform" element={<WorkoutForm />} />
+        <Route path="/workoutlist" element={<WorkoutList workouts={workoutList} />} />
+      </Routes>
     </Router>
   );
 };
