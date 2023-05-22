@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         user = User.objects.get(username="artur")
-        for _ in range(10):
+        for _ in range(1):
             session_type = fake.random_element(elements=('running', 'cycling', 'hiking', 'swimming', 'walking'))
             distance = fake.random_int(min=5, max=55)
             intensity = fake.random_element(elements=('easy', 'medium', 'hard'))
