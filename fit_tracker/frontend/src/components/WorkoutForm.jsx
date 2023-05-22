@@ -25,79 +25,119 @@ const WorkoutForm = () => {
         length: '',
         date: '',
       });
-      setErrors({});
     } else {
       setErrors(errors);
     }
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const validateForm = (data) => {
-    const errors = {};
-    if (!data.sessionType) {
-      errors.sessionType = 'Session type is required';
-    }
-    if (!data.distance) {
-      errors.distance = 'Distance is required';
-    } else if (data.distance < 0) {
-      errors.distance = 'Distance must be a positive number';
-    }
-    if (!data.intensity) {
-      errors.intensity = 'Intensity is required';
-    }
-    if (!data.length) {
-      errors.length = 'Length is required';
-    } else if (data.length < 0) {
-      errors.length = 'Length must be a positive number';
-    }
-    if (!data.date) {
-      errors.date = 'Date is required';
-    }
-    return errors;
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Session Type:
-        <select name="sessionType" value={formData.sessionType} onChange={handleChange}>
-          <option value="">Select Session Type</option>
-          <option value="running">Running</option>
-          <option value="cycling">Cycling</option>
-          <option value="swimming">Swimming</option>
-        </select>
-        {errors.sessionType && <span>{errors.sessionType}</span>}
-      </label>
-      <label>
-        Distance:
-        <input type="number" name="distance" value={formData.distance} onChange={handleChange} />
-        {errors.distance && <span>{errors.distance}</span>}
-      </label>
-      <label>
-        Intensity:
-        <select name="intensity" value={formData.intensity} onChange={handleChange}>
-          <option value="">Select Intensity</option>
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
-        {errors.intensity && <span>{errors.intensity}</span>}
-      </label>
-      <label>
-        Length:
-        <input type="number" name="length" value={formData.length} onChange={handleChange} />
-        {errors.length && <span>{errors.length}</span>}
-      </label>
-      <label>
-        Date:
-        <input type="date" name="date" value={formData.date} onChange={handleChange} />
-        {errors.date && <span>{errors.date}</span>}
-      </label>
-      <button type="submit">Submit</button>
-    </form>
+    <div className="flex justify-center items-center h-full">
+      <form
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        onSubmit={handleSubmit}
+      >
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 font-bold mb-2"
+            htmlFor="sessionType"
+          >
+            Session Type
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="sessionType"
+            type="text"
+            name="sessionType"
+            placeholder="Enter session type"
+            value={formData.sessionType}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 font-bold mb-2"
+            htmlFor="distance"
+          >
+            Distance
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="distance"
+            type="number"
+            name="distance"
+            placeholder="Enter distance"
+            value={formData.distance}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 font-bold mb-2"
+            htmlFor="intensity"
+          >
+            Intensity
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="intensity"
+            type="text"
+            name="intensity"
+            placeholder="Enter intensity"
+            value={formData.intensity}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 font-bold mb-2"
+            htmlFor="length"
+          >
+            Length
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="length"
+            type="number"
+            name="length"
+            placeholder="Enter length"
+            value={formData.length}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 font-bold mb-2"
+            htmlFor="date"
+          >
+            Date
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="date"
+            type="date"
+            name="date"
+            placeholder="Enter date"
+            value={formData.date}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="flex items-center justify-center">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="submit"
+          >
+            Add Activity
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 
