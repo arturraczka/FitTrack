@@ -23,7 +23,7 @@ class Summary(models.Model):
 
     def __str__(self):
         return (
-            f"{self.user.username}: "
+            f"{self.user}: "
             f"{self.summary_type}"
         )
 
@@ -72,7 +72,7 @@ class Session(models.Model):
 
     def __str__(self):
         return (
-            f"{self.user.username}: "
+            f"{self.user}: "
             f"{self.session_type}: "
             f"{self.session_date:%Y-%m-%d %H:%M}"
         )
