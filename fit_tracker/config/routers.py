@@ -1,7 +1,7 @@
 from rest_framework import routers
 
-from apps.api.views import RunningSessionListAPIView
+from apps.api.views import RunningSessionListCreateAPIView
 
 router = routers.DefaultRouter()
 
-router.register(r'running' , RunningSessionListAPIView)
+router.register(r'running' , RunningSessionListCreateAPIView)
