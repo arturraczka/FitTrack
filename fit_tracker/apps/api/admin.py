@@ -13,9 +13,9 @@ class UserAdmin(DefaultUserAdmin):
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
     fields = (
-        "user", 'session_type', 'intensity', 'distance', 'length_time', 'session_date')
+        "user", 'summary', 'session_type', 'intensity', 'distance', 'length_time', 'session_date')
     list_display = (
-        "user", 'session_type', 'intensity', 'distance', 'length_time', 'session_date')
+        "user", 'summary', 'session_type', 'intensity', 'distance', 'length_time', 'session_date')
     readonly_fields = (
     )
 

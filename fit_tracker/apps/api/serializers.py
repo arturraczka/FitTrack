@@ -6,7 +6,7 @@ from apps.api.models import Session, Summary
 class SessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Session
-        fields = ['session_type', 'intensity', 'distance', 'length_time', 'session_date']
+        fields = ['user', 'summary', 'session_type', 'intensity', 'distance', 'length_time', 'session_date']
 
 
 class SummarySerializer(serializers.ModelSerializer):

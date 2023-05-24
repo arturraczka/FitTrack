@@ -1,11 +1,12 @@
-from django.shortcuts import render
-from rest_framework import permissions
-from rest_framework.generics import ListCreateAPIView , ListAPIView
+# from django.shortcuts import render, HttpResponse
+from rest_framework import permissions, status
+from rest_framework.generics import ListCreateAPIView
 from apps.api.models import Session, Summary
 from apps.api.serializers import SessionSerializer, SummarySerializer
+from rest_framework.response import Response
 
 
-class SummaryListAPIView(ListAPIView):
+class SummaryListSessionCreateAPIView(ListCreateAPIView):
     queryset = Summary.objects.none()
     serializer_class = SummarySerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -13,6 +14,18 @@ class SummaryListAPIView(ListAPIView):
     def get_queryset(self):
         queryset = Summary.objects.filter(user=self.request.user)
         return queryset
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.new_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def new_serializer(self, *args, **kwargs):
+        serializer_class = SessionSerializer
+        kwargs.setdefault('context', self.get_serializer_context())
+        return serializer_class(*args, **kwargs)
 
 
 class SessionListCreateAPIView(ListCreateAPIView):
