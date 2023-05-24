@@ -13,11 +13,9 @@ class UserAdmin(DefaultUserAdmin):
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
     fields = (
-        "user", "summary", "session_type", "distance", "intensity", "length_time", "start_date",
-    )
+        "user", 'session_type', 'intensity', 'distance', 'length_time', 'session_date')
     list_display = (
-        "user", "summary", "session_type", "distance", "intensity", "length_time", "start_date",
-    )
+        "user", 'session_type', 'intensity', 'distance', 'length_time', 'session_date')
     readonly_fields = (
     )
 
@@ -25,10 +23,10 @@ class SessionAdmin(admin.ModelAdmin):
 @admin.register(Summary)
 class SessionAdmin(admin.ModelAdmin):
     fields = (
-        "user", "summary_type", "total_distance", "total_number_sessions", "total_length_time", "last_session",
+        "user", "summary_type", "total_distance", "total_number_sessions", "average_length_time", "last_session",
     )
     list_display = (
-        "user", "summary_type", "total_distance", "total_number_sessions", "total_length_time", "last_session",
+        "user", "summary_type", "total_distance", "total_number_sessions", "average_length_time", "last_session",
     )
     readonly_fields = (
     )
