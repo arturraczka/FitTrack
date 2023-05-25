@@ -1,0 +1,103 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+:root {
+  --font-family-sans: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  --color-primary: #646cff;
+  --color-primary-dark: #535bf2;
+  --color-background: #242424;
+  --color-text: rgba(255, 255, 255, 0.87);
+  --color-link: var(--color-primary);
+  --color-link-hover: var(--color-primary-dark);
+
+  --border-radius-default: 8px;
+  --border-width-default: 1px;
+  --border-color-default: transparent;
+
+  --padding-default: 0.6em 1.2em;
+
+  --transition-duration-default: 0.25s;
+
+  --outline-offset-default: 4px;
+  --outline-style-default: auto;
+  --outline-color-default: -webkit-focus-ring-color;
+}
+
+html {
+  font-family: var(--font-family-sans);
+  line-height: 1.5;
+  font-weight: var(--font-weight-normal);
+
+  color-scheme: light dark;
+  color: var(--color-text);
+  background-color: var(--color-background);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-link);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--color-link-hover);
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: var(--border-radius-default);
+  border: var(--border-width-default) solid var(--border-color-default);
+  padding: var(--padding-default);
+  font-size: 1em;
+  font-weight: var(--font-weight-medium);
+  font-family: inherit;
+  background-color: var(--color-background);
+  cursor: pointer;
+  transition: border-color var(--transition-duration-default);
+}
+button:hover {
+  border-color: var(--color-primary);
+}
+button:focus,
+button:focus-visible {
+  outline-offset: var(--outline-offset-default);
+  outline-style: var(--outline-style-default);
+  outline-color: var(--outline-color-default);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: var(--color-link-hover);
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
