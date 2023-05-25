@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models import Q
 from django.db.models import Count, Sum, Avg, Max
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 
 class Summary(models.Model):
@@ -50,6 +51,12 @@ class Session(models.Model):
     distance = models.DecimalField(max_digits = 4, decimal_places = 1)
     length_time = models.DurationField()
     session_date = models.DateTimeField(default = timezone.now)
+
+    def clean(self):
+        super().clean()
+        for activity in ['running', 'cycling', 'hiking', 'swimming', 'walking']:
+            if self.session_type == activity and self.summary.summary_type != activity:
+                raise ValidationError(f"Summary type must be '{activity}' for sessions with type '{activity}'")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
