@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import WorkoutForm from './components/WorkoutForm';
 import WorkoutList from '../src/components/WorkoutList';
+import Home from './pages/Home';
 
 const App = () => {
   const workouts = useSelector((state) => state.formData);
@@ -22,7 +23,7 @@ const App = () => {
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<h1>Welcome to the Workout Tracker App!</h1>} />
+        <Route path="/" element={<Home />} />
         <Route path="/workoutform" element={<WorkoutForm />} />
         <Route path="/workoutlist" element={<WorkoutList workouts={workoutList} />} />
       </Routes>
