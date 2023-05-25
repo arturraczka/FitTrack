@@ -1,49 +1,68 @@
-from django.shortcuts import render
-
-from rest_framework import permissions
-
-from rest_framework.generics import ListCreateAPIView
-
-from apps.api.models import Session
-from apps.api.serializers import SessionSerializer
+from rest_framework import permissions, status
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from apps.api.models import Session, Summary
+from apps.api.serializers import SessionSerializer, SummarySerializer
+from rest_framework.response import Response
 
 
-class SessionListAPIView(ListCreateAPIView):
+class SummaryListSessionCreateAPIView(ListCreateAPIView):
+    queryset = Summary.objects.none()
+    serializer_class = SummarySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = Summary.objects.filter(user=self.request.user)
+        return queryset
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.new_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def new_serializer(self, *args, **kwargs):
+        serializer_class = SessionSerializer
+        kwargs.setdefault('context', self.get_serializer_context())
+        return serializer_class(*args, **kwargs)
+
+
+class SessionListCreateAPIView(ListCreateAPIView, RetrieveUpdateDestroyAPIView):
     queryset = Session.objects.none()
     serializer_class = SessionSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
-class RunningSessionListAPIView(SessionListAPIView):
+class RunningSessionListCreateAPIView(SessionListCreateAPIView):
 
     def get_queryset(self):
-        queryset = Session.objects.filter(user=self.request.user, session_type='running')
+        queryset = Session.objects.filter(user=self.request.user, session_type='running').order_by('-session_date')
         return queryset
 
 
-class CyclingSessionListAPIView(SessionListAPIView):
+class CyclingSessionListCreateAPIView(SessionListCreateAPIView):
 
     def get_queryset(self):
-        queryset = Session.objects.filter(user=self.request.user, session_type='cycling')
+        queryset = Session.objects.filter(user=self.request.user, session_type='cycling').order_by('-session_date')
         return queryset
 
 
-class HikingSessionListAPIView(SessionListAPIView):
+class HikingSessionListCreateAPIView(SessionListCreateAPIView):
 
     def get_queryset(self):
-        queryset = Session.objects.filter(user=self.request.user, session_type='hiking')
+        queryset = Session.objects.filter(user=self.request.user, session_type='hiking').order_by('-session_date')
         return queryset
 
 
-class SwimmingSessionListAPIView(SessionListAPIView):
+class SwimmingSessionListCreateAPIView(SessionListCreateAPIView):
 
     def get_queryset(self):
-        queryset = Session.objects.filter(user=self.request.user, session_type='swimming')
+        queryset = Session.objects.filter(user=self.request.user, session_type='swimming').order_by('-session_date')
         return queryset
 
 
-class WalkingSessionListAPIView(SessionListAPIView):
+class WalkingSessionListCreateAPIView(SessionListCreateAPIView):
 
     def get_queryset(self):
-        queryset = Session.objects.filter(user=self.request.user, session_type='walking')
+        queryset = Session.objects.filter(user=self.request.user, session_type='walking').order_by('-session_date')
         return queryset
