@@ -1,6 +1,5 @@
-# from django.shortcuts import render, HttpResponse
 from rest_framework import permissions, status
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from apps.api.models import Session, Summary
 from apps.api.serializers import SessionSerializer, SummarySerializer
 from rest_framework.response import Response
@@ -28,7 +27,7 @@ class SummaryListSessionCreateAPIView(ListCreateAPIView):
         return serializer_class(*args, **kwargs)
 
 
-class SessionListCreateAPIView(ListCreateAPIView):
+class SessionListCreateAPIView(ListCreateAPIView, RetrieveUpdateDestroyAPIView):
     queryset = Session.objects.none()
     serializer_class = SessionSerializer
     permission_classes = [permissions.IsAuthenticated]
