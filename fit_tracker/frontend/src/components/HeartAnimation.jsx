@@ -12,11 +12,13 @@ const HeartAnimation = ({ steps, activeTime, caloriesBurnt }) => {
         <div className="absolute inset-y-0 left-0 bg-green-500 rounded-full" style={{ width: `${caloriesBurntPercentage}%` }}></div>
       </div>
       <div className="absolute inset-0 flex items-center justify-center">
-        <svg viewBox="0 0 20 20" fill="currentColor" className="heart w-6 h-6 text-red-500">
+        <svg viewBox="0 0 20 20" fill="none" className="heart w-6 h-6 text-red-500">
           <path
-            fillRule="evenodd"
             d="M10 18.928c-.265 0-.52-.104-.71-.293l-7.07-7.07c-1.562-1.562-1.562-4.095 0-5.657 1.562-1.562 4.095-1.562 5.657 0L10 6.343l1.414-1.414c1.562-1.562 4.095-1.562 5.657 0 1.562 1.562 1.562 4.095 0 5.657l-7.07 7.07c-.19.19-.445.293-.71.293z"
-            clipRule="evenodd"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       </div>
