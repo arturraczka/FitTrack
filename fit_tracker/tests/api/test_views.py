@@ -9,13 +9,13 @@ from rest_framework import status
 User = get_user_model()
 
 
-@pytest.fixture
-def create_session_instance():
-    def _create_instance(**kwargs):
-        instance = Session.objects.create(**kwargs)
-        return instance
-
-    return _create_instance
+# @pytest.fixture
+# def create_session_instance():
+#     def _create_instance(**kwargs):
+#         instance = Session.objects.create(**kwargs)
+#         return instance
+#
+#     return _create_instance
 
 
 @pytest.fixture
