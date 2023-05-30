@@ -13,6 +13,7 @@ environ = "*"
 django-environ = "*"
 django-extensions = "*"
 faker = "*"
+pytest-cov = "*"
 
 [dev-packages]
 
