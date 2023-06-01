@@ -54,9 +54,11 @@ class Session(models.Model):
 
     def clean(self):
         super().clean()
+        if self.user != self.summary.user:
+            raise ValidationError(f"Summary's user and Session's user must be the same!")
         for activity in ['running', 'cycling', 'hiking', 'swimming', 'walking']:
             if self.session_type == activity and self.summary.summary_type != activity:
-                raise ValidationError(f"Summary type must be '{activity}' for sessions with type '{activity}'")
+                raise ValidationError(f"Summary type must be '{activity}' for sessions with type '{activity}'!")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -81,5 +83,6 @@ class Session(models.Model):
         return (
             f"{self.user}: "
             f"{self.session_type}: "
-            f"{self.session_date:%Y-%m-%d %H:%M}"
+            # f"{self.session_date.strftime('%Y-%m-%d %H:%M')}"
+
         )
