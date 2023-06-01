@@ -6,6 +6,8 @@ import Navbar from './components/Navbar';
 import WorkoutForm from './components/WorkoutForm';
 import WorkoutList from '../src/components/WorkoutList';
 import Home from './pages/Home';
+import Contact from './pages/Contact';
+import About from './pages/About';
 
 const App = () => {
   const workouts = useSelector((state) => state.formData);
@@ -24,6 +26,8 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/Contact" element={<Contact />} />
+        <Route path="/About" element={<About />} />
         <Route path="/workoutform" element={<WorkoutForm />} />
         <Route path="/workoutlist" element={<WorkoutList workouts={workoutList} />} />
       </Routes>
