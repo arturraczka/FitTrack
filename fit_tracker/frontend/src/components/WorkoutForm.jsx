@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { postActivity } from '../redux/actions/workoutActions';
 
@@ -11,32 +11,22 @@ const WorkoutForm = () => {
     length: '',
     date: '',
   });
-  const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const errors = validateForm(formData);
-    if (Object.keys(errors).length === 0) {
-      dispatch(postActivity(formData));
-      setFormData({
-        sessionType: '',
-        distance: '',
-        intensity: '',
-        length: '',
-        date: '',
-      });
-    } else {
-      setErrors(errors);
-    }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+      const activityType = 'hiking'; // replace with actual activity type
+      dispatch(postActivity({ activityType, activityData: formData }));
   };
 
-  const handleChange = (e) => {
+  const handleChange = (event) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [event.target.name]: event.target.value,
     });
   };
-
+  
   return (
     <div className="flex justify-center items-center h-full">
       <form
