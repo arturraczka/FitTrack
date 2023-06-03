@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
-import WorkoutForm from './components/WorkoutForm';
+import WorkoutForm from './pages/WorkoutForm';
 import WorkoutList from '../src/components/WorkoutList';
 import Home from './pages/Home';
 import Contact from './pages/Contact';
