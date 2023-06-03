@@ -14,6 +14,7 @@ django-environ = "*"
 django-extensions = "*"
 faker = "*"
 pytest-cov = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
