@@ -8,11 +8,11 @@ from django.core.exceptions import ValidationError
 
 class Summary(models.Model):
     SUMMARY_TYPE_CHOICES = [
-        ("running" , "running") ,
-        ("cycling" , "cycling") ,
-        ("hiking" , "hiking") ,
-        ("swimming" , "swimming") ,
-        ("walking" , "walking") ,
+        ("running", "running"),
+        ("cycling", "cycling"),
+        ("hiking", "hiking"),
+        ("swimming", "swimming"),
+        ("walking", "walking"),
     ]
     user = models.ForeignKey(to=get_user_model(), on_delete = models.CASCADE)
     summary_type = models.CharField(max_length = 10, choices = SUMMARY_TYPE_CHOICES)
@@ -40,8 +40,8 @@ class Session(models.Model):
         ("running", "running"),
         ("cycling", "cycling"),
         ("hiking", "hiking"),
-        ("swimming" , "swimming") ,
-        ("walking" , "walking") ,
+        ("swimming", "swimming"),
+        ("walking", "walking"),
     ]
     user = models.ForeignKey(to=get_user_model(), on_delete = models.CASCADE)
     summary = models.ForeignKey(to=Summary, on_delete = models.CASCADE, null = True)
