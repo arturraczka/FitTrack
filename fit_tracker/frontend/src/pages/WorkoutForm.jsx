@@ -16,10 +16,8 @@ const WorkoutForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (validateForm()) {
-      const activityType = 'hiking'; // replace with actual activity type
+      const activityType = 'running'; // replace with actual activity type
       dispatch(postActivity({ activityType, activityData: formData }));
-    }
   };
 
   const handleChange = (event) => {
@@ -40,17 +38,20 @@ const WorkoutForm = () => {
             className="block text-gray-700 font-bold mb-2"
             htmlFor="sessionType"
           >
-            Session Type
+            <select
+              id="color"
+              name="color"
+              value={formData.sessionType}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+            >
+              <option value="">Select Activity</option>
+              <option value="running">Running</option>
+              <option value="hiking">Hiking</option>
+              <option value="swimming">Swimming</option>
+              <option value="cycling">Cycling</option>
+            </select>
           </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="sessionType"
-            type="text"
-            name="sessionType"
-            placeholder="Enter session type"
-            value={formData.sessionType}
-            onChange={handleChange}
-          />
         </div>
         <div className="mb-4">
           <label
