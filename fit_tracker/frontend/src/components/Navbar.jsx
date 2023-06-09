@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login, clearAuthState } from '../../redux/auth/authSlice';
+import { login, clearAuthState } from '../redux/auth/authSlice';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
