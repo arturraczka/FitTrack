@@ -1,11 +1,22 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login, clearAuthState } from '../../redux/auth/authSlice';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogin = () => {
+    dispatch(login({ email: 'user@example.com', password: 'password' }));
+  };
+
+  const handleLogout = () => {
+    dispatch(clearAuthState());
   };
 
   return (
@@ -17,76 +28,34 @@ const Navbar = () => {
               Workout Tracker
             </Link>
           </div>
-          <div className="hidden md:block">
-            <ul className="flex justify-end items-center">
-              <li className="ml-6">
-                <Link to="/" className="text-gray-600 hover:text-gray-800">
-                  Home
-                </Link>
-              </li>
-              <li className="ml-6">
-                <Link to="/workoutlist" className="text-gray-600 hover:text-gray-800">
-                  Workouts
-                </Link>
-              </li>
-              <li className="ml-6">
-                <Link to="/workoutform" className="text-gray-600 hover:text-gray-800">
-                  Add Workout
-                </Link>
-              </li>
-              <li className="ml-6">
-                <Link to="/about" className="text-gray-600 hover:text-gray-800">
-                  About
-                </Link>
-              </li>
-              <li className="ml-6">
-                <Link to="/contact" className="text-gray-600 hover:text-gray-800">
-                  Contact
-                </Link>
-              </li>
-            </ul>
+          <div className="hidden md:flex items-center">
+            <button onClick={handleLogin} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Login
+            </button>
+            <button onClick={handleLogout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4">
+              Logout
+            </button>
           </div>
-          <div className="md:hidden">
-            <button type="button" className="block text-gray-800 hover:text-gray-600 focus:text-gray-600 focus:outline-none" onClick={toggleMenu}>
-              <svg viewBox="0 0 20 20" fill="currentColor" className="w-6 h-6">
-                <path
-                  fillRule="evenodd"
-                  d="M2 4.5a.5.5 0 01.5-.5h15a.5.5 0 010 1h-15A.5.5 0 012 4.5zM2.5 9a.5.5 0 01.5-.5h15a.5.5 0 010 1h-15a.5.5 0 01-.5-.5zM2 13.5a.5.5 0 01.5-.5h15a.5.5 0 010 1h-15a.5.5 0 01-.5-.5z"
-                  clipRule="evenodd"
-                />
+          <div className="md:hidden flex items-center">
+            <button onClick={toggleMenu} className="text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600">
+              <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current">
+                {isOpen ? (
+                  <path fillRule="evenodd" clipRule="evenodd" d="M19.293 4.293a1 1 0 0 0-1.414 0L12 10.586 5.707 4.293a1 1 0 0 0-1.414 1.414l6.364 6.364a1 1 0 0 0 1.414 0l6.364-6.364a1 1 0 0 0 0-1.414z" />
+                ) : (
+                  <path fillRule="evenodd" clipRule="evenodd" d="M4 6a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H5a1 1 0 0 1-1-1zm0 5a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H5a1 1 0 0 1-1-1zm1 5a1 1 0 1 1 0-2h14a1 1 0 1 1 0 2H5z" />
+                )}
               </svg>
             </button>
           </div>
         </div>
         {isOpen && (
           <div className="md:hidden">
-            <ul className="flex flex-col justify-end items-center">
-              <li className="my-2">
-                <Link to="/" className="text-gray-600 hover:text-gray-800">
-                  Home
-                </Link>
-              </li>
-              <li className="my-2">
-                <Link to="/workoutlist" className="text-gray-600 hover:text-gray-800">
-                  Workouts
-                </Link>
-              </li>
-              <li className="my-2">
-                <Link to="/workoutform" className="text-gray-600 hover:text-gray-800">
-                  Add Workout
-                </Link>
-              </li>
-              <li className="my-2">
-                <Link to="/about" className="text-gray-600 hover:text-gray-800">
-                  About
-                </Link>
-              </li>
-              <li className="my-2">
-                <Link to="/contact" className="text-gray-600 hover:text-gray-800">
-                  Contact
-                </Link>
-              </li>
-            </ul>
+            <button onClick={handleLogin} className="block text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 py-2 px-4">
+              Login
+            </button>
+            <button onClick={handleLogout} className="block text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 py-2 px-4 mt-2">
+              Logout
+            </button>
           </div>
         )}
       </div>
