@@ -8,6 +8,7 @@ import WorkoutList from '../src/components/WorkoutList';
 import Home from './pages/Home';
 import Contact from './pages/Contact';
 import About from './pages/About';
+import Loginsignup from './pages/signuplogin/SignUpLogin';
 
 const App = () => {
   const workouts = useSelector((state) => state.formData);
@@ -19,7 +20,7 @@ const App = () => {
     { id: 3, name: 'Lunges', duration: 20 },
   ];
 
-  const workoutList = workouts.length > 0 ? workouts : defaultWorkouts;
+  const workoutList = workouts? workouts : defaultWorkouts;
 
   return (
     <Router>
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/About" element={<About />} />
         <Route path="/workoutform" element={<WorkoutForm />} />
         <Route path="/workoutlist" element={<WorkoutList workouts={workoutList} />} />
+        <Route path="loginsignup" element={<Loginsignup />} />
       </Routes>
     </Router>
   );

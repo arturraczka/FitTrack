@@ -1,18 +1,26 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { login, clearAuthState } from '../redux/auth/authSlice';
 
 const Navbar = () => {
+  const user = useSelector((state) => state.auth.user);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      dispatch({ type: 'auth/loginSuccess', payload: JSON.parse(storedUser) });
+    }
+  }, [dispatch]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   const handleLogin = () => {
-    dispatch(login({ email: 'user@example.com', password: 'password' }));
+    dispatch(login({ email: 'user@example.com', password: '7gbiFyBtN4NC!KR' }));
   };
 
   const handleLogout = () => {
@@ -46,6 +54,24 @@ const Navbar = () => {
                 )}
               </svg>
             </button>
+            <div>
+            {user ? (
+                <div className="mx-auto my-auto cursor-pointer flex justify-between items-center w-16">
+                  <FaIcons.FaRegUserCircle />
+                  <div>{user && user.username}</div>
+                </div>
+              ) : (
+                <NavLink
+                  to="/loginsignup/"
+                  className="button signin-button mx-auto"
+                  id="nav-desktop-signin-button"
+                  title="Sign Up / Log in"
+                  aria-label="Sign Up / Log in"
+                >
+                  Sign Up / Log In
+                </NavLink>
+              )}
+              </div>
           </div>
         </div>
         {isOpen && (

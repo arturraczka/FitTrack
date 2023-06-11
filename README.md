@@ -49,6 +49,19 @@ To install the project, follow these steps:
 
 To use the application, follow these instructions.
 
+1 - Start the backend server
+
+  ```sh
+   pipenv shell
+  ```
+2 - Change directory to the fit_tracker
+```
+  cd fit_tracker
+  python3 manage.py runserver
+````
+3 - Run server
+1
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 👥 Authors <a name="authors"></a>
