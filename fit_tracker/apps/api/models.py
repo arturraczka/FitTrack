@@ -14,13 +14,16 @@ class Summary(models.Model):
         ("swimming", "swimming"),
         ("walking", "walking"),
     ]
-    user = models.ForeignKey(to=get_user_model(), on_delete = models.CASCADE)
+    user = models.ForeignKey(to=get_user_model(), related_name = 'summaries', on_delete = models.CASCADE)
     summary_type = models.CharField(max_length = 10, choices = SUMMARY_TYPE_CHOICES)
 
     total_distance = models.DecimalField(max_digits = 10, decimal_places = 1, null=True, blank = True)
     total_number_sessions = models.IntegerField(null=True, blank = True)
     average_length_time = models.DurationField(null=True, blank = True)
     last_session = models.DateTimeField(null=True, blank = True)
+
+    class Meta:
+        ordering = ['-summary_type']
 
     def __str__(self):
         return (
@@ -43,14 +46,17 @@ class Session(models.Model):
         ("swimming", "swimming"),
         ("walking", "walking"),
     ]
-    user = models.ForeignKey(to=get_user_model(), on_delete = models.CASCADE)
-    summary = models.ForeignKey(to=Summary, on_delete = models.CASCADE, null = True)
+    user = models.ForeignKey(to=get_user_model(), related_name = 'sessions', on_delete = models.CASCADE)
+    summary = models.ForeignKey(to=Summary, on_delete = models.CASCADE, null = True)  # related_name = 'sessions'?
     session_type = models.CharField(max_length = 10, choices = SESSION_TYPE_CHOICES)
 
     intensity = models.CharField(max_length = 10, choices = INTENSITY_CHOICES)
     distance = models.DecimalField(max_digits = 4, decimal_places = 1)
     length_time = models.DurationField()
     session_date = models.DateTimeField(default = timezone.now)
+
+    class Meta:
+        ordering = ['-session_date']
 
     def clean(self):
         super().clean()
