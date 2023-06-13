@@ -34,10 +34,19 @@ class SessionListCreateAPIView(ListCreateAPIView, RetrieveUpdateDestroyAPIView):
 
 
 class RunningSessionListCreateAPIView(SessionListCreateAPIView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.session_type = 'running'
 
     def get_queryset(self):
-        queryset = Session.objects.filter(user=self.request.user, session_type='running').order_by('-session_date')
+        queryset = Session.objects.filter(user=self.request.user, session_type=self.session_type).order_by('-session_date')
         return queryset
+
+    # def get_serializer_context(self):
+    #     context = super().get_serializer_context()
+    #     # Add additional context data here
+    #     context['additional_data'] = 'Extra context data'
+    #     return context
 
 
 class CyclingSessionListCreateAPIView(SessionListCreateAPIView):
