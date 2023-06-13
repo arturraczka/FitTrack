@@ -43,11 +43,10 @@ class DurationFieldSerializer(serializers.Field):
 class SummarySerializer(serializers.ModelSerializer):
     average_length_time = DurationFieldSerializer()
     last_session = DateTimeFieldSerializer()
-    user = UserSerializer()
 
     class Meta:
         model = Summary
-        fields = ['id', 'user', 'summary_type', 'total_distance', 'total_number_sessions', 'average_length_time',
+        fields = ['id', 'summary_type', 'total_distance', 'total_number_sessions', 'average_length_time',
                   'last_session']
 
 
