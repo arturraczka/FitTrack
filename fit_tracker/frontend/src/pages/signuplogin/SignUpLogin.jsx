@@ -56,32 +56,19 @@ const Loginsignup = () => {
         <div className="text-center text-2xl font-bold mb-8">
           <h1 className="text-gray-900">Welcome!</h1>
         </div>
-        <div className="flex space-x-4 mb-4">
-          <button
-            type="button"
-            className="bg-gray-900 text-white py-2 px-4 rounded"
-            onClick={() => handleFormSwitch('signUp')}
-          >
-            Sign Up
-          </button>
-          <button
-            type="button"
-            className="bg-gray-200 text-gray-900 py-2 px-4 rounded"
-            onClick={() => handleFormSwitch('login')}
-          >
-            Log In
-          </button>
+
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          <SignUpForm />
+          <div className="mt-6">
+            <p className="text-center text-sm leading-5 font-medium text-gray-700">
+              Already have an account?{' '}
+              <Link to="/login" className="text-blue-500 hover:text-blue-700 focus:outline-none focus:underline transition ease-in-out duration-150">
+                Login
+              </Link>
+            </p>
+          </div>
         </div>
-        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          {renderForm()}
-        </div>
-        <button
-          type="button"
-          onClick={handleAuthClick}
-          className="bg-gray-900 text-white py-2 px-4 rounded"
-        >
-          Access Authorized Route
-        </button>
       </div>
     </div>
   );
