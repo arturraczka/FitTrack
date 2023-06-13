@@ -1,61 +1,13 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import LoginForm from '../loginform/LoginForm';
-import SignInForm from '../signinform/SignInForm';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import SignUpForm from './SignUpForm';
 
-const Loginsignup = () => {
-  
-  const [, setUser] = useState({});
-  const [form, setForm] = useState('');
-  const selector = useSelector((state) => state.auth.token);
-  const navigate = useNavigate();
-
-  const handleLogin = (user) => {
-    setUser(user);
-  };
-
-  const handleFormSwitch = (input) => {
-    setForm(input);
-  };
-
-  const handleAuthClick = () => {
-    const token = selector;
-    fetch('http://127.0.0.1:8000/user_is_authed', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((data) => data);
-  };
-
-  const renderForm = () => {
-    switch (form) {
-      case 'login':
-        return <LoginForm handleLogin={handleLogin} />;
-      default:
-        return <SignInForm handleLogin={handleLogin} />;
-    }
-  };
-
-  const handleBack = () => {
-    navigate('/');
-  };
-
+const SignUpLogin = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <button
-        type="button"
-        className="absolute top-1 left-1 sm:top-4 sm:left-4 hover:bg-indigo-600 text-white bg-green py-1 px-1 sm:py-2 sm:px-4"
-        onClick={handleBack}
-      >
-        &laquo; Go Back
-      </button>
-      <div className="max-w-md w-full">
-        <div className="text-center text-2xl font-bold mb-8">
-          <h1 className="text-gray-900">Welcome!</h1>
-        </div>
+    <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 className="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">Register</h2>
+      </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
@@ -74,4 +26,4 @@ const Loginsignup = () => {
   );
 };
 
-export default Loginsignup;
+export default SignUpLogin;
