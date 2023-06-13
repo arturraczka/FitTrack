@@ -1,7 +1,13 @@
-import { useState, useEffect } from 'react';
+// Navbar.jsx
+import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { login, clearAuthState } from '../redux/auth/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, login } from '../redux/auth/authSlice';
+
+const handleLogout = () => {
+  dispatch(logout(token));
+};
+
 
 const Navbar = () => {
   const user = useSelector((state) => state.auth.user);
@@ -35,11 +41,12 @@ const Navbar = () => {
             <Link to="/" className="text-lg font-bold text-gray-800">
               Workout Tracker
             </Link>
+            
           </div>
           <div className="hidden md:flex items-center">
-            <button onClick={handleLogin} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Login
-            </button>
+          <NavLink to="/signup" className="block text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 py-2 px-4">
+              Sign Up
+            </NavLink>
             <button onClick={handleLogout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4">
               Logout
             </button>
@@ -59,10 +66,13 @@ const Navbar = () => {
                 <div className="mx-auto my-auto cursor-pointer flex justify-between items-center w-16">
                   <FaIcons.FaRegUserCircle />
                   <div>{user && user.username}</div>
-                </div>
+                    <Link to="/" onClick={handleLogout}>
+                      Logout
+                    </Link>
+                  </div>
               ) : (
                 <NavLink
-                  to="/loginsignup/"
+                  to="/signup/"
                   className="button signin-button mx-auto"
                   id="nav-desktop-signin-button"
                   title="Sign Up / Log in"
@@ -76,9 +86,9 @@ const Navbar = () => {
         </div>
         {isOpen && (
           <div className="md:hidden">
-            <button onClick={handleLogin} className="block text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 py-2 px-4">
+            <NavLink to="/signup" className="block text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 py-2 px-4">
               Login
-            </button>
+            </NavLink>
             <button onClick={handleLogout} className="block text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 py-2 px-4 mt-2">
               Logout
             </button>
