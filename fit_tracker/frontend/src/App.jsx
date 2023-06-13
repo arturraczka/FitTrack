@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import Loginsignup from './pages/signuplogin/SignUpLogin';
+import LoginForm from './pages/loginform/LoginForm';
 
 const App = () => {
   const workouts = useSelector((state) => state.formData);
@@ -31,7 +32,8 @@ const App = () => {
         <Route path="/About" element={<About />} />
         <Route path="/workoutform" element={<WorkoutForm />} />
         <Route path="/workoutlist" element={<WorkoutList workouts={workoutList} />} />
-        <Route path="loginsignup" element={<Loginsignup />} />
+        <Route path="signup" element={<Loginsignup />} />
+        <Route path="login" element={<LoginForm />} />
       </Routes>
     </Router>
   );
