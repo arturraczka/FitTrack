@@ -47,7 +47,7 @@ class Session(models.Model):
         ("walking", "walking"),
     ]
     user = models.ForeignKey(to=get_user_model(), related_name = 'sessions', on_delete = models.CASCADE)
-    summary = models.ForeignKey(to=Summary, on_delete = models.CASCADE, null = True)  # related_name = 'sessions'?
+    summary = models.ForeignKey(to=Summary, related_name = 'sessions', on_delete = models.CASCADE, null = True)  # related_name = 'sessions'?
     session_type = models.CharField(max_length = 10, choices = SESSION_TYPE_CHOICES)
 
     intensity = models.CharField(max_length = 10, choices = INTENSITY_CHOICES)
