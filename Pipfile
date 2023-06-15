@@ -15,6 +15,7 @@ django-extensions = "*"
 faker = "*"
 pytest-cov = "*"
 django-cors-headers = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 
