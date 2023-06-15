@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, login } from '../redux/auth/authSlice';
+import { logout, login, selectCurrentUser } from '../redux/auth/authSlice';
+import * as FaIcons from 'react-icons/fa';
 
 const handleLogout = () => {
   dispatch(logout(token));
@@ -13,6 +14,14 @@ const Navbar = () => {
   const user = useSelector((state) => state.auth.user);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
+  const currentUser = useSelector(selectCurrentUser);
+
+
+  useEffect(() => {
+    if (currentUser) {
+      console.log('Logged in user:', currentUser);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -26,7 +35,7 @@ const Navbar = () => {
   };
 
   const handleLogin = () => {
-    dispatch(login({ email: 'user@example.com', password: '7gbiFyBtN4NC!KR' }));
+    dispatch(login({ username: 'admin', password: 'Topsy1597.' }));
   };
 
   const handleLogout = () => {
@@ -44,9 +53,15 @@ const Navbar = () => {
             
           </div>
           <div className="hidden md:flex items-center">
-          <NavLink to="/signup" className="block text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 py-2 px-4">
-              Sign Up
-            </NavLink>
+          <button onClick={handleLogin}
+                  to="/signup/"
+                  className="button signin-button mx-auto"
+                  id="nav-desktop-signin-button"
+                  title="Sign Up / Log in"
+                  aria-label="Sign Up / Log in"
+                >
+                  Sign Up / Log In
+                </button>
             <button onClick={handleLogout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4">
               Logout
             </button>
@@ -71,7 +86,7 @@ const Navbar = () => {
                     </Link>
                   </div>
               ) : (
-                <NavLink
+                <button onClick={handleLogin}
                   to="/signup/"
                   className="button signin-button mx-auto"
                   id="nav-desktop-signin-button"
@@ -79,16 +94,22 @@ const Navbar = () => {
                   aria-label="Sign Up / Log in"
                 >
                   Sign Up / Log In
-                </NavLink>
+                </button>
               )}
               </div>
           </div>
         </div>
         {isOpen && (
           <div className="md:hidden">
-            <NavLink to="/signup" className="block text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 py-2 px-4">
-              Login
-            </NavLink>
+            <button onClick={handleLogin}
+                  to="/signup/"
+                  className="button signin-button mx-auto"
+                  id="nav-desktop-signin-button"
+                  title="Sign Up / Log in"
+                  aria-label="Sign Up / Log in"
+                >
+                  Sign Up / Log In
+                </button>
             <button onClick={handleLogout} className="block text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 py-2 px-4 mt-2">
               Logout
             </button>
