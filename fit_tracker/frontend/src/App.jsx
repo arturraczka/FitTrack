@@ -10,6 +10,7 @@ import Contact from './pages/Contact';
 import About from './pages/About';
 import Loginsignup from './pages/signuplogin/SignUpLogin';
 import LoginForm from './pages/loginform/LoginForm';
+import Profile from './components/Profile';
 
 const App = () => {
   const workouts = useSelector((state) => state.formData);
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/workoutlist" element={<WorkoutList workouts={workoutList} />} />
         <Route path="signup" element={<Loginsignup />} />
         <Route path="login" element={<LoginForm />} />
+        <Route path="Profile" element={<Profile />} />
       </Routes>
     </Router>
   );
