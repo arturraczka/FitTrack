@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
 
 const login = createAsyncThunk('auth/login', async ({ username, password }) => {
   const response = await fetch('http://127.0.0.1:8000/api/login/', {
@@ -118,6 +118,11 @@ const authSlice = createSlice({
       });
   },
 });
+
+export const selectCurrentUser = createSelector(
+  (state) => state.auth.user,
+  (user) => user
+);
 
 export { login, logout, register, fetchUser };
 export const { setToken, setUser, clearAuthState } = authSlice.actions;
