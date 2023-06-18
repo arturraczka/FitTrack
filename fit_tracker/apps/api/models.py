@@ -47,7 +47,8 @@ class Session(models.Model):
         ("walking", "walking"),
     ]
     user = models.ForeignKey(to=get_user_model(), related_name = 'sessions', on_delete = models.CASCADE)
-    summary = models.ForeignKey(to=Summary, related_name = 'sessions', on_delete = models.CASCADE, null = True)  # related_name = 'sessions'?
+    summary = models.ForeignKey(to=Summary, related_name = 'sessions', on_delete = models.CASCADE, null = True,
+                                blank = True)
     session_type = models.CharField(max_length = 10, choices = SESSION_TYPE_CHOICES)
 
     intensity = models.CharField(max_length = 10, choices = INTENSITY_CHOICES)
@@ -60,11 +61,13 @@ class Session(models.Model):
 
     def clean(self):
         super().clean()
+        if self.summary is None:
+            self.summary = Summary.objects.get(Q(user = self.user) & Q(summary_type = self.session_type))
         if self.user != self.summary.user:
             raise ValidationError(f"Summary's user and Session's user must be the same!")
-        for activity in ['running', 'cycling', 'hiking', 'swimming', 'walking']:
-            if self.session_type == activity and self.summary.summary_type != activity:
-                raise ValidationError(f"Summary type must be '{activity}' for sessions with type '{activity}'!")
+        if self.session_type != self.summary.summary_type:
+            raise ValidationError(f"Summary type must be '{self.session_type}' for sessions with type "
+                                  f"'{self.session_type}'!")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -78,7 +81,7 @@ class Session(models.Model):
             last_session = Max('session_date')
         )
 
-        summary_instance = Summary.objects.get(Q(user=self.user) & Q(summary_type=self.session_type))
+        summary_instance = self.summary
         summary_instance.total_number_sessions = filtered_queryset['total_number_sessions']
         summary_instance.total_distance = filtered_queryset['total_distance']
         summary_instance.average_length_time = filtered_queryset['average_length_time']
