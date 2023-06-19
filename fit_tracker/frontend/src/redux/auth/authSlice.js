@@ -119,10 +119,14 @@ const authSlice = createSlice({
   },
 });
 
-export const selectCurrentUser = createSelector(
+export const selectUser = createSelector(
   (state) => state.auth.user,
   (user) => user
 );
+
+export const selectError = (state) => state.auth.error;
+
+export const selectStatus = (state) => state.auth.status;
 
 export { login, logout, register, fetchUser };
 export const { setToken, setUser, clearAuthState } = authSlice.actions;
