@@ -1,23 +1,29 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUser, selectCurrentUser } from '../redux/auth/authSlice';
+import { fetchUser, selectUser, selectStatus, selectError } from '../redux/auth/authSlice';
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const currentUser = useSelector(selectCurrentUser);
+  const user = useSelector(selectUser);
+  const status = useSelector(selectStatus);
+  const error = useSelector(selectError);
 
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
 
-  if (!currentUser) {
+  if (status === 'loading') {
     return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
   }
 
   return (
     <div>
-      <h1>Welcome, {currentUser.username}!</h1>
-      <p>Email: {currentUser.email}</p>
+      <h1>{user && user.name}</h1>
+      <p>{user && user.email}</p>
     </div>
   );
 };
