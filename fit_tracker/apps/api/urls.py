@@ -1,8 +1,13 @@
-from django.urls import path, include
-from apps.api.views import SummaryListSessionCreateAPIView, TypeSessionListCreateAPIView
+from django.urls import path , include
+from apps.api.views import SummaryListView, SummaryWithSessionListView, SessionViewSet
+from rest_framework import routers
+
+session_router = routers.DefaultRouter()
+session_router.register(r'session', SessionViewSet)
 
 urlpatterns = [
-    path('', SummaryListSessionCreateAPIView.as_view(), name = 'activities'),
-    path('<str:session_type>/', TypeSessionListCreateAPIView.as_view({'get': 'retrieve', 'post': 'create',
-                                                                      'delete': 'destroy'}), name='my-api'),
+    path('', include(session_router.urls)),
+    path('summary', SummaryListView.as_view(), name = 'summary'),
+    path('summary/<str:summary_type>/', SummaryWithSessionListView.as_view(), name = 'summary-type'),
+    path('user/', include('apps.user.urls')),
 ]
