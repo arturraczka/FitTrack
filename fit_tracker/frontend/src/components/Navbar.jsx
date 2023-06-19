@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, login, selectCurrentUser } from '../redux/auth/authSlice';
+import { logout, login, selectUser } from '../redux/auth/authSlice';
 import * as FaIcons from 'react-icons/fa';
 
 const handleLogout = () => {
@@ -14,7 +14,7 @@ const Navbar = () => {
   const user = useSelector((state) => state.auth.user);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
-  const currentUser = useSelector(selectCurrentUser);
+  const currentUser = useSelector(selectUser);
 
 
   useEffect(() => {
