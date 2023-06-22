@@ -1,38 +1,27 @@
 import pytest
 from django.contrib.auth import get_user_model
-from datetime import datetime
-from apps.api.models import Session , Summary
-from apps.api.serializers import SessionSerializer , SummarySerializer , UserSerializer
-
-
-@pytest.fixture
-def get_user_instance():
-    user_model = get_user_model()
-    user_model.objects.create(username='fhgjhkjghfg', password='password')
-    user = user_model.objects.get(username='fhgjhkjghfg')
-    return user
+import datetime
+from apps.api.models import Summary , Session
+from apps.api.serializers import SessionSerializer, SummarySerializer, UserSerializer, SummaryWithSessionsSerializer
 
 
 @pytest.mark.django_db
 def test_user_serializer():
-    user_data = {
-        'id': 1,
-        'username': 'bowryjcidam',
+    valid_user_data = {
+        'id': 5,
+        'username': 'testusername',
     }
 
-    serializer = UserSerializer(data=user_data)
-    assert serializer.is_valid() is True
+    serializer = UserSerializer(data=valid_user_data)
+    assert serializer.is_valid()
     assert serializer.errors == {}
 
 
 @pytest.mark.django_db
 def test_summary_serializer():
-    summary_data = {
+    summary_valid_data = {
         'id': 1,
-        'user': {
-            'id': 1,
-            'username': 'randstring'
-        },
+        'user': 1,
         'summary_type': 'running',
         'total_distance': 500,
         'total_number_sessions': 25,
@@ -40,53 +29,36 @@ def test_summary_serializer():
         'last_session': '2023-05-13 07:32'
     }
 
-    serializer = SummarySerializer(data=summary_data)
-    assert serializer.is_valid() is True
+    serializer = SummarySerializer(data=summary_valid_data)
+    assert serializer.is_valid()
     assert serializer.errors == {}
 
 
-# @pytest.fixture
-# def session_instance(summary_instance):
-#     session = Session(user = 1 , summary = summary_instance , session_type = 'running' ,
-#                       distance = 10 , intensity = 'medium' , length_time = '05:00:34' ,
-#                       session_date = '2023-05-13 07:32')
-#     return session
+@pytest.mark.django_db
+def test_session_serializer():
+    user = get_user_model().objects.create_user(username='testuser', password='testpassword')
+    summary = Summary.objects.get(user=user, summary_type='running')
+    session = Session.objects.create(
+        user=user,
+        summary=summary,
+        session_type='running',
+        intensity='hard',
+        distance=10.5,
+        length_time=datetime.timedelta(minutes=55),
+        session_date='2023-05-20 09:00:00'
+    )
 
+    serializer = SessionSerializer(instance=session)
+    expected_data = {
+        'id': session.id,
+        'user': user.id,
+        'summary': summary.id,
+        'session_type': 'running',
+        'intensity': 'hard',
+        'distance': '10.5',
+        'length_time': '00:55:00',
+        'session_date': '2023-05-20 09:00:00'
+    }
 
-# @pytest.fixture
-# def valid_session_data(summary_instance):
-#     return {
-#         'id': 1,
-#         'user': 1,
-#         'summary': summary_instance,
-#         'session_type': 'running',
-#         'distance': '10.7',
-#         'intensity': 'hard',
-#         'length_time': '05:00:34',
-#         'session_date': '2023-05-13 07:32'
-        # 'session_date': datetime.now().isoformat(),
-    # }
+    assert serializer.data == expected_data
 
-# @pytest.fixture
-# def invalid_session_data():
-#     return {
-#         'session_type': 'cycling',
-#         'distance': '20.5',
-#         'intensity': 'medium',
-#         'length_time': 'InvalidDuration',
-#         # 'start_date': '2023-05-01T10:00:00',
-#     }
-
-    # assert serializer.data['user'] == valid_session_data['user'].id
-    # assert serializer.data['summary'] == valid_session_data['summary'].id
-    # # assert serializer.validated_data == valid_session_data
-    # # assert serializer.data == valid_session_data
-    # assert serializer.errors == {}
-
-# @pytest.mark.django_db
-# def test_session_serializer_invalid(invalid_session_data):
-#     serializer = SessionSerializer(data=invalid_session_data)
-#     assert serializer.is_valid() is False
-#     assert serializer.validated_data == {}
-#     assert 'length_time' in serializer.errors
-#     assert 'session_date' in serializer.errors
