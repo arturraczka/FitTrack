@@ -4,14 +4,14 @@ from django.core.exceptions import ValidationError
 from django.db import DataError, IntegrityError
 from apps.api.models import Session, Summary
 from django.contrib.auth import get_user_model
+from tests.api.fixtures import \
+    create_user_instance , \
+    get_user_instance , \
+    get_summary_instance , \
+    create_summary_instance , \
+    create_session_instance , duration_converter
 
 UserModel = get_user_model()
-
-
-@pytest.fixture
-def create_user_instance():
-    user = UserModel.objects.create_user(email= 'test.name@test.com', username= 'test_user', password= 'password')
-    return user
 
 
 @pytest.mark.django_db
@@ -51,19 +51,6 @@ def test_update_user_model(create_user_instance):
     assert test_user.username == 'notSoRandomString'
 
 
-@pytest.fixture
-def get_user_instance():
-    user = UserModel.objects.get(username= 'test_user')
-    return user
-
-
-@pytest.fixture
-def get_summary_instance(get_user_instance):
-    summary_type = 'running'
-    summary = Summary.objects.get(user=get_user_instance, summary_type=summary_type)
-    return summary
-
-
 @pytest.mark.django_db
 def test_get_and_delete_summary_model(create_user_instance, get_user_instance, get_summary_instance):
     test_summary = get_summary_instance
@@ -85,13 +72,6 @@ def test_get_and_delete_summary_model(create_user_instance, get_user_instance, s
     assert test_summary.summary_type == summary_type
 
 
-@pytest.fixture
-def create_summary_instance(get_user_instance):
-    summary_type = 'running'
-    summary = Summary.objects.create(user=get_user_instance, summary_type=summary_type)
-    return summary
-
-
 @pytest.mark.django_db
 def test_create_summary_model(create_user_instance, get_user_instance, create_summary_instance):
     test_summary = create_summary_instance
@@ -100,25 +80,16 @@ def test_create_summary_model(create_user_instance, get_user_instance, create_su
     assert test_summary.user == get_user_instance
 
 
-@pytest.fixture
-def create_session_instance(create_user_instance, get_user_instance, get_summary_instance):
-    session_type = 'running'
-    session = Session(user=get_user_instance, summary=get_summary_instance , session_type=session_type,
-                      distance=10, intensity='medium', length_time='01:00:00',
-                      session_date='2023-05-13T07:32:38')
-    return session
-
-
 @pytest.mark.django_db
 def test_create_session_model(create_session_instance, get_user_instance, get_summary_instance):
     test_session = create_session_instance
 
-    assert test_session.user == get_user_instance
-    assert test_session.summary == get_summary_instance
+    assert test_session.user.id == get_user_instance.id
+    assert test_session.summary.id == get_summary_instance.id
     assert test_session.session_type == 'running'
-    assert test_session.distance == 10
+    assert '{:.1f}'.format(test_session.distance) == '10.4'
     assert test_session.intensity == 'medium'
-    assert test_session.length_time == '01:00:00'
+    assert duration_converter(test_session.length_time) == '01:30:00'
     assert test_session.session_date == '2023-05-13T07:32:38'
 
 
@@ -128,7 +99,7 @@ def test_wrong_type_summary_for_session_model(create_session_instance, get_user_
     summary_instance = Summary.objects.get(user=get_user_instance, summary_type=summary_type)
     session_type = 'running'
     test_session = Session(user=get_user_instance, summary=summary_instance, session_type=session_type,
-                           distance=10, intensity='medium', length_time='01:00:00',
+                           distance=10, intensity='medium', length_time='00:01:00:00',
                            session_date='2023-05-13T07:32:38')
     with pytest.raises(ValidationError):
         test_session.clean()
