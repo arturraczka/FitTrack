@@ -50,7 +50,6 @@ class Session(models.Model):
     summary = models.ForeignKey(to=Summary, related_name = 'sessions', on_delete = models.CASCADE, null = True,
                                 blank = True)
     session_type = models.CharField(max_length = 10, choices = SESSION_TYPE_CHOICES)
-
     intensity = models.CharField(max_length = 10, choices = INTENSITY_CHOICES)
     distance = models.DecimalField(max_digits = 4, decimal_places = 1)
     length_time = models.DurationField()
