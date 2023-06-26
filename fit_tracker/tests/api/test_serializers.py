@@ -157,4 +157,18 @@ def test_session_invalid_deserialization(create_user_instance, create_summary_in
     assert serializer.is_valid() is False
     assert len(serializer.errors) == 1
 
-# test_summary_with_session_serializer
+
+@pytest.mark.django_db
+def test_summary_with_session_serialization(create_user_instance, get_summary_instance):
+    summary = get_summary_instance
+    serializer = SummaryWithSessionsSerializer(instance=summary)
+    expected_data = {
+        'id': summary.id,
+        'summary_type': summary.summary_type,
+        'total_distance': summary.total_distance,
+        'total_number_sessions': summary.total_number_sessions,
+        'average_length_time': summary.average_length_time,
+        'last_session': summary.last_session,
+        'sessions': []
+    }
+    assert serializer.data == expected_data
