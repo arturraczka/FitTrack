@@ -37,7 +37,7 @@ def create_summary_instance(get_user_instance):
 def create_session_instance(create_user_instance, get_user_instance, get_summary_instance):
     session_type = 'running'
     session = Session(user=get_user_instance, summary=get_summary_instance , session_type=session_type,
-                      distance=10.4, intensity='medium', length_time=timedelta(hours=1, minutes=30),
+                      distance=10.0, intensity='medium', length_time=timedelta(hours=1, minutes=30),
                       session_date='2023-05-13T07:32:38')
     return session
 
