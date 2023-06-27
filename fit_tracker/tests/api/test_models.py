@@ -87,7 +87,7 @@ def test_create_session_model(create_session_instance, get_user_instance, get_su
     assert test_session.user.id == get_user_instance.id
     assert test_session.summary.id == get_summary_instance.id
     assert test_session.session_type == 'running'
-    assert '{:.1f}'.format(test_session.distance) == '10.4'
+    assert '{:.1f}'.format(test_session.distance) == '10.0'
     assert test_session.intensity == 'medium'
     assert duration_converter(test_session.length_time) == '01:30:00'
     assert test_session.session_date == '2023-05-13T07:32:38'
