@@ -69,6 +69,7 @@ class Session(models.Model):
                                   f"'{self.session_type}'.")
 
     def save(self, *args, **kwargs):
+        self.full_clean()
         super().save(*args, **kwargs)
 
         filtered_queryset = Session.objects.filter(
