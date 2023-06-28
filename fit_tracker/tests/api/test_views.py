@@ -202,3 +202,17 @@ def test_session_view_put():
 
     assert response.status_code == status.HTTP_200_OK
     assert response.data == expected_data
+
+
+# TODO
+#  refactoring z fixtures
+#  testowanie validacji
+#  testowanie niekompletnych POSTów/UPDATEów
+#  testowanie niedozwolonych metod?
+#  testowanie routingu?
+#  zrobienie lintingu z blackiem
+#  test UserRegister view
+#  test UserView view
+#  test ChangePasswordView view
+#  ewentualnie UserRegisterSerializer
+#  ewentualnie ChangePasswordSerializer

@@ -1,6 +1,6 @@
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
+# from rest_framework.exceptions import ValidationError
 
 UserModel = get_user_model()
 
@@ -17,25 +17,36 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return user_obj
 
 
-class UserLoginSerializer(serializers.Serializer):
-    def update(self, instance, validated_data):
-        pass
-
-    def create(self, validated_data):
-        pass
-
-    # email = serializers.EmailField()
-    username = serializers.CharField()
-    password = serializers.CharField()
-
-    def check_user(self, clean_data):
-        user = authenticate(username=clean_data['username'], password=clean_data['password'])
-        if not user:
-            raise ValidationError('user not found')
-        return user
-
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = ('email', 'username')
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
+
+    def validate(self, attrs):
+        attrs = super().validate(attrs)
+        new_password = attrs.get('new_password')
+        self.validate_password(new_password)
+        return attrs
+
+    def validate_password(self, password):
+        if len(password) < 8:
+            raise serializers.ValidationError("Password must be at least 8 characters long.")
+
+        if not any(char in "!@#$%^&*()-_=+~`[]{}|;:,.<>/?'\"" for char in password):
+            raise serializers.ValidationError("Password must contain a special character.")
+
+        if not any(char.isdigit() for char in password):
+            raise serializers.ValidationError("Password must contain a number.")
+
+        return password
