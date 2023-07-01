@@ -11,7 +11,7 @@ const handleLogout = () => {
 
 
 const Navbar = () => {
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth && state.auth.user);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const currentUser = useSelector(selectUser);
