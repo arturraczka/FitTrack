@@ -9,6 +9,18 @@ export const login = createAsyncThunk('auth/login', async (credentials) => {
   return response.data;
 });
 
+export const register = createAsyncThunk('auth/register', async ({ email, username, password }) => {
+  const response = await fetch('http://127.0.0.1:8000/api/user/register/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, username, password }),
+  });
+  const data = await response.json();
+  return data;
+});
+
 export const fetchUser = createAsyncThunk('auth/fetchUser', async () => {
   const response = await axios.get(`${API_URL}/user/`, {
     headers: {
@@ -98,9 +110,9 @@ const authSlice = createSlice({
 
 export const { logout } = authSlice.actions;
 
-export const selectCurrentUser = (state) => state.auth.user;
-export const selectToken = (state) => state.auth.access_token;
-export const selectStatus = (state) => state.auth.status;
-export const selectError = (state) => state.auth.error;
+export const selectUser = (state) => state.auth && state.auth.user;
+export const selectToken = (state) => state.auth && state.auth.access_token;
+export const selectStatus = (state) => state.auth && state.auth.status;
+export const selectError = (state) => state.auth && state.auth.error;
 
 export default authSlice.reducer;
