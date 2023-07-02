@@ -5,7 +5,8 @@ import Cookies from 'js-cookie';
 const API_URL = 'http://127.0.0.1:8000/api';
 
 export const login = createAsyncThunk('auth/login', async (credentials) => {
-  const response = await axios.post(`${API_URL}/token/`, credentials);
+  const response = await axios.post(`${API_URL}/user/token/`, credentials);
+  console.log(response.data)
   return response.data;
 });
 
@@ -27,13 +28,15 @@ export const fetchUser = createAsyncThunk('auth/fetchUser', async () => {
       Authorization: `Bearer ${Cookies.get('access_token')}`,
     },
   });
+  console.log(response.data)
   return response.data;
 });
 
 export const refreshToken = createAsyncThunk('auth/refreshToken', async () => {
-  const response = await axios.post(`${API_URL}/token/refresh/`, {
+  const response = await axios.post(`${API_URL}/user/token/refresh/`, {
     refresh: Cookies.get('refresh_token'),
   });
+  console.log(response.data)
   return response.data;
 });
 
