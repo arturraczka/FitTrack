@@ -9,8 +9,20 @@ const Profile = () => {
   const error = useSelector(selectError);
 
   useEffect(() => {
-    dispatch(fetchUser());
+    const getUser = async () => {
+      try {
+        const userData = await dispatch(fetchUser());
+        console.log('User:', userData && userData.email);
+      } catch (error) {
+        console.log('Error:', error);
+      }
+    };
+    getUser();
   }, [dispatch]);
+
+  useEffect(() => {
+    console.log('User:', user && user.email);
+  }, [user]);
 
   if (status === 'loading') {
     return <div>Loading...</div>;
@@ -22,8 +34,12 @@ const Profile = () => {
 
   return (
     <div>
-      <h1>{user && user.name}</h1>
-      <p>{user && user.email}</p>
+      {user && (
+        <>
+          <h1>{user.username}</h1>
+          <p>{user.email}</p>
+        </>
+      )}
     </div>
   );
 };
