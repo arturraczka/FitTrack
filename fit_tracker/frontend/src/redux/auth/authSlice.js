@@ -57,6 +57,18 @@ const authSlice = createSlice({
       state.refresh_token = null;
       state.user = null;
     },
+    setToken: (state, action) => {
+      state.access_token = action.payload;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+    setRefreshToken: (state, action) => {
+      state.refresh_token = action.payload;
+    },
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -111,7 +123,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { setToken, setError, setRefreshToken, setUser, logout } = authSlice.actions;
 
 export const selectUser = (state) => state.auth && state.auth.user;
 export const selectToken = (state) => state.auth && state.auth.access_token;
