@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { signup } from '../../redux/auth/authSlice';
+import { register } from '../../redux/auth/authSlice';
 
 const SignUpForm = () => {
   const [username, setUsername] = useState('');
@@ -17,7 +17,7 @@ const SignUpForm = () => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    dispatch(signup({ username, password }))
+    dispatch(register({ email, username, password }))
       .then((result) => {
         if (result.payload) {
           // successful sign up, handle user data

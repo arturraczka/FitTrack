@@ -11,6 +11,7 @@ import About from './pages/About';
 import Loginsignup from './pages/signuplogin/SignUpLogin';
 import LoginForm from './pages/loginform/LoginForm';
 import Profile from './components/Profile';
+import Sidebar from './components/Sidebar/Sidebar';
 
 const App = () => {
   const workouts = useSelector((state) => state.formData);
@@ -27,15 +28,16 @@ const App = () => {
   return (
     <Router>
       <Navbar />
+      <Sidebar/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/About" element={<About />} />
         <Route path="/workoutform" element={<WorkoutForm />} />
         <Route path="/workoutlist" element={<WorkoutList workouts={workoutList} />} />
-        <Route path="signup" element={<Loginsignup />} />
         <Route path="login" element={<LoginForm />} />
         <Route path="Profile" element={<Profile />} />
+        <Route path="loginsignup" element={<Loginsignup />} />
       </Routes>
     </Router>
   );
