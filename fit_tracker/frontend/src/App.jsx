@@ -13,16 +13,16 @@ import LoginForm from './pages/loginform/LoginForm';
 import Profile from './components/Profile';
 
 const App = () => {
-  const workouts = useSelector((state) => state.formData);
-  console.log(workouts);
+const workouts = useSelector((state) => state.formData);
+console.log(workouts);
 
-  const defaultWorkouts = [
-    { id: 1, name: 'Pushups', duration: 10 },
-    { id: 2, name: 'Squats', duration: 15 },
-    { id: 3, name: 'Lunges', duration: 20 },
-  ];
+const defaultWorkouts = [
+  { id: 1, name: "Pushups", duration: 10 },
+  { id: 2, name: "Squats", duration: 15 },
+  { id: 3, name: "Lunges", duration: 20 },
+];
 
-  const workoutList = workouts? workouts : defaultWorkouts;
+const workoutList = workouts || defaultWorkouts;
 
   return (
     <Router>
