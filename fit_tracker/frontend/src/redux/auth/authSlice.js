@@ -1,30 +1,17 @@
-import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
-const login = createAsyncThunk('auth/login', async ({ username, password }) => {
-  const response = await fetch('http://127.0.0.1:8000/api/login/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ username, password }),
-  });
-  const data = await response.json();
-  return data;
+const API_URL = 'http://127.0.0.1:8000/api';
+
+export const login = createAsyncThunk('auth/login', async (credentials) => {
+  const response = await axios.post(`${API_URL}/user/token/`, credentials);
+  console.log(response.data)
+  return response.data;
 });
 
-const logout = createAsyncThunk('auth/logout', async (token) => {
-  const response = await fetch('http://127.0.0.1:8000/api/logout/', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data = await response.json();
-  return data;
-});
-
-const register = createAsyncThunk('auth/register', async ({ email, username, password }) => {
-  const response = await fetch('http://127.0.0.1:8000/api/register/', {
+export const register = createAsyncThunk('auth/register', async ({ email, username, password }) => {
+  const response = await fetch('http://127.0.0.1:8000/api/user/register/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -35,36 +22,52 @@ const register = createAsyncThunk('auth/register', async ({ email, username, pas
   return data;
 });
 
-const fetchUser = createAsyncThunk('auth/fetchUser', async (token) => {
-  const response = await fetch('http://127.0.0.1:8000/api/user/', {
+export const fetchUser = createAsyncThunk('auth/fetchUser', async () => {
+  const response = await axios.get(`${API_URL}/user/`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${Cookies.get('access_token')}`,
     },
   });
-  const data = await response.json();
-  return data;
+  console.log(response.data)
+  return response.data;
+});
+
+export const refreshToken = createAsyncThunk('auth/refreshToken', async () => {
+  const response = await axios.post(`${API_URL}/user/token/refresh/`, {
+    refresh: Cookies.get('refresh_token'),
+  });
+  console.log(response.data)
+  return response.data;
 });
 
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
     status: 'idle',
-    error: null,
-    token: null,
+    access_token: Cookies.get('access_token'),
+    refresh_token: Cookies.get('refresh_token'),
     user: null,
+    error: null,
   },
   reducers: {
+    logout: (state) => {
+      Cookies.remove('access_token');
+      Cookies.remove('refresh_token');
+      state.access_token = null;
+      state.refresh_token = null;
+      state.user = null;
+    },
     setToken: (state, action) => {
-      state.token = action.payload;
+      state.access_token = action.payload;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+    setRefreshToken: (state, action) => {
+      state.refresh_token = action.payload;
     },
     setUser: (state, action) => {
       state.user = action.payload;
-    },
-    clearAuthState: (state) => {
-      state.status = 'idle';
-      state.error = null;
-      state.token = null;
-      state.user = null;
     },
   },
   extraReducers: (builder) => {
@@ -74,34 +77,12 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.token = action.payload.token;
-        state.user = action.payload.user;
+        state.access_token = action.payload.access;
+        state.refresh_token = action.payload.refresh;
+        Cookies.set('access_token', action.payload.access, { expires: 1 / 48 }); // 5 minutes
+        Cookies.set('refresh_token', action.payload.refresh, { expires: 1 }); // 24 hours
       })
       .addCase(login.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      })
-      .addCase(logout.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(logout.fulfilled, (state) => {
-        state.status = 'idle';
-        state.token = null;
-        state.user = null;
-      })
-      .addCase(logout.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      })
-      .addCase(register.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(register.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.token = action.payload.token;
-        state.user = action.payload.user;
-      })
-      .addCase(register.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       })
@@ -112,23 +93,41 @@ const authSlice = createSlice({
         state.status = 'succeeded';
         state.user = action.payload;
       })
-      .addCase(fetchUser.rejected, (state, action) => {
+      .addCase(fetchUser.rejected, async (state, action) => {
+        if (action.error.message === 'Request failed with status code 401') {
+          try {
+            await refreshToken();
+            const response = await axios.get(`${API_URL}/user/`, {
+              headers: {
+                Authorization: `Bearer ${Cookies.get('access_token')}`,
+              },
+            });
+            state.user = response.data;
+          } catch (error) {
+            state.status = 'failed';
+            state.error = error.message;
+          }
+        } else {
+          state.status = 'failed';
+          state.error = action.error.message;
+        }
+      })
+      .addCase(refreshToken.fulfilled, (state, action) => {
+        state.access_token = action.payload.access;
+        Cookies.set('access_token', action.payload.access, { expires: 1 / 48 }); // 5 minutes
+      })
+      .addCase(refreshToken.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });
   },
 });
 
-export const selectUser = createSelector(
-  (state) => state.auth.user,
-  (user) => user
-);
+export const { setToken, setError, setRefreshToken, setUser, logout } = authSlice.actions;
 
-export const selectError = (state) => state.auth.error;
-
-export const selectStatus = (state) => state.auth.status;
-
-export { login, logout, register, fetchUser };
-export const { setToken, setUser, clearAuthState } = authSlice.actions;
+export const selectUser = (state) => state.auth && state.auth.user;
+export const selectToken = (state) => state.auth && state.auth.access_token;
+export const selectStatus = (state) => state.auth && state.auth.status;
+export const selectError = (state) => state.auth && state.auth.error;
 
 export default authSlice.reducer;
